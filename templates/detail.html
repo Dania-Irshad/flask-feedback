@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="display: flex; align-items: center;">
+  <h1 class="mx-3">{{ user.first_name }} {{ user.last_name }}</h1>
+  <a href="/users/{{ user.username }}/feedback/add" class="btn btn-info p-1 m-1">
+    Add feedback
+  </a>
+  <form>
+    <button class="btn btn-danger p-1 m-1" formaction="/users/{{ user.username }}/delete" formmethod="POST">
+      Delete User
+    </button>
+  </form>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <h2 class="ms-2">Feedback</h2>
+    <ul>
+      {% for feedback in user.feedbacks %}
+      <li>
+        <b>{{ feedback.title }}</b>
+        <br>
+        {{ feedback.content }}
+      </li>
+      <form>
+        {{form.hidden_tag()}}
+        <button class="btn btn-primary p-1" formmethod="GET" formaction="/feedback/{{ feedback.id }}/update">
+          Edit
+        </button>
+        <button class="btn btn-danger p-1" formmethod="POST" formaction="/feedback/{{ feedback.id }}/delete">
+          Delete
+        </button>
+      </form>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}
